@@ -5,6 +5,7 @@ from fastapi import APIRouter
 
 from anonymous_board.controller.request.create_anonymous_board_request import CreateAnonymousBoardRequest
 from anonymous_board.controller.response.anonymous_board_response import AnonymousBoardResponse
+from anonymous_board.service.anonymous_board_service_impl import AnonymousBoardServiceImpl
 
 # @RequestMapping("/board")
 # Con`troller, Service, Repository 객체 모두 싱글톤 구성
