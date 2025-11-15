@@ -10,3 +10,11 @@ class AnonymousBoardService(ABC):
     @abstractmethod
     def create(self, title: str, content: str):
         pass
+
+    @abstractmethod
+    def find_all(self):
+        pass
+
+    @abstractmethod
+    def find_by_id(self, board_id: str):
+        pass

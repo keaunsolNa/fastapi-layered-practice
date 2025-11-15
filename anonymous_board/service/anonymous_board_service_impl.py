@@ -14,13 +14,13 @@ class AnonymousBoardServiceImpl(AnonymousBoardService):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
             cls.__instance.anonymous_board_repository = (
-                AnonymousBoardRepositoryImpl.getInstance())
+                AnonymousBoardRepositoryImpl.get_instance())
 
         return cls.__instance
 
 
     @classmethod
-    def getInstance(cls):
+    def get_instance(cls):
         if cls.__instance is None:
             cls.__instance = cls()
 
@@ -43,3 +43,13 @@ class AnonymousBoardServiceImpl(AnonymousBoardService):
 
     def create(self, title: str, content: str):
         return self.anonymous_board_repository.create(title, content)
+
+    def find_all(self):
+        return self.anonymous_board_repository.find_all()
+
+    def find_by_id(self, board_id: str):
+        read_board = self.anonymous_board_repository.find_by_id(board_id)
+        if not read_board:
+            raise ValueError("찾는 아이디 없음")
+
+        return read_board

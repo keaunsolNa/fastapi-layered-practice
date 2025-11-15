@@ -1,3 +1,5 @@
+from typing import List
+
 from anonymous_board.entity.anonymous_board import AnonymousBoard
 from anonymous_board.service.anonymous_board_service import AnonymousBoardService
 from config.mysql_config import SessionLocal
@@ -13,7 +15,7 @@ class AnonymousBoardRepositoryImpl(AnonymousBoardService):
         return cls.__instance
 
     @classmethod
-    def getInstance(cls):
+    def get_instance(cls):
         if cls.__instance is None:
             cls.__instance = cls()
 
@@ -33,5 +35,23 @@ class AnonymousBoardRepositoryImpl(AnonymousBoardService):
             db.rollback()
             raise
 
+        finally:
+            db.close()
+
+    def find_all(self) -> List[AnonymousBoard]:
+        db = SessionLocal()
+
+        try:
+            return (db.query(AnonymousBoard).
+                    order_by(AnonymousBoard.created_at.desc()).all())
+        finally:
+            db.close()
+
+    def find_by_id(self, board_id: str) -> AnonymousBoard:
+        db = SessionLocal()
+
+        try:
+            return (db.query(AnonymousBoard).
+                    filter(AnonymousBoard.id == board_id).first())
         finally:
             db.close()
